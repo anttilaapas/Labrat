@@ -1,0 +1,29 @@
+Toteutettavat algoritmit ja tietorakenteet
+
+-Branch and bound -menetelmä
+
+
+
+Ongelman kuvaus ja algoritmin valinta
+
+-"Rahtifirma NopsaToimitus haluaa optimoida konttikuljetuksissa käytettävän tilan. Suunnittele miten voidaan täyttää yksi tai useampi kontti mahdollisimman tehokkaasti, jos 	 tiedetään pakettien määrä ja koot."
+
+- Algoritmi on valittu, koska se on hyvä käsittelemään optimiratkaisun löytämistä kaikkien ratkaisujen joukosta.
+
+
+
+Syötteet
+
+- Ohjelma saa syötteenä kontin mitat sekä haluttujen pakettien mitat. Yritetään mahduttaa mahdollisimman monta pakettia konttiin kuin mahdollista.
+
+
+
+Tavoitteena olevat aika- ja tilavaativuudet (m.m. O-analyysi)
+
+- Aika- ja tilavaativuus O(n log n)
+
+
+Lähteet
+
+http://www.cs.hut.fi/Opinnot/T-106.410/pruju/asase20.html
+
