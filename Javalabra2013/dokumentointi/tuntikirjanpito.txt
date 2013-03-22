@@ -1,3 +1,6 @@
 Aika		Päivämäärä	Kuvaus
 0,5 h		12.3.2013	Aloitusluento ja aiheen valinta
 2,0 h		12.3.2013	Github-reposition luonti ja aihemäärittelyn aloittaminen
+1,0 h		20.3.2013	Perustoiminnallisuuden koodausta
+5,0 h		22.3.2013	Perustoiminnallisuutta (miinojen arpominen ruudukkoon jne.),
+				testien lisäämistä, karkea luokkakaavio
