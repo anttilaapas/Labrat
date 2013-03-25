@@ -15,14 +15,18 @@ import java.util.Random;
 public class Kentta {
     
     private Random random = new Random();
-    private int[][] ruudukko;
+    private int[] ruudukko;
     private ArrayList<Integer> miinanPaikat;
     private int miinat = 0;
+    private int leveys;
+    private int pituus;
         
     
     public Kentta(int leveys, int pituus, int vaikeus) {
         
-        this.ruudukko = new int[leveys][pituus];
+        this.ruudukko = new int[leveys*pituus];
+        this.leveys = leveys;
+        this.pituus = pituus;
         luoMiinat(leveys, pituus, vaikeus);
        
     }
@@ -39,7 +43,7 @@ public class Kentta {
         }
         
         arvoMiinojenSijainti(miinat, leveys, pituus);
-        asetaMiinatRuudukkoon(leveys);
+        asetaMiinatRuudukkoon();
     }
     
     
@@ -60,12 +64,12 @@ public class Kentta {
     }
     
     // miinojen asetus ruudukkoon
-    public void asetaMiinatRuudukkoon(int leveys) {
+    public void asetaMiinatRuudukkoon() {
         
         for (int i : miinanPaikat) {
             //System.out.println("Miinanpaikka: " + i);
             //System.out.println(i/leveys + ", " + i%pituus + ", " + leveys + ", " + pituus);
-            ruudukko[i%leveys][i/leveys] = -1;
+            ruudukko[i] = -1;
         }
     }
 
@@ -73,12 +77,21 @@ public class Kentta {
     
     
     public void tulostaRuudukko() {
-        for (int i = 0; i < ruudukko[0].length; i++) {
-            System.out.print((i) + "");
-            for (int j = 0; j < ruudukko.length; j++) {
-                System.out.print("["+ruudukko[j][i]+"]");
+        
+        for (int i = 0; i < ruudukko.length; i++) {
+            if ((i+1) % this.leveys == 0) {
+                if (ruudukko[i] == -1) {
+                    System.out.println("[*]");
+                } else {
+                    System.out.println("[" + ruudukko[i] + "]");
+                }
+            } else {
+                if (ruudukko[i] != -1) {
+                    System.out.print("[" + ruudukko[i] + "]");
+                } else {
+                    System.out.print("[*]");
+                }
             }
-            System.out.println("");
         }
     }
     
@@ -86,7 +99,7 @@ public class Kentta {
         return this.miinat;
     }
     
-    public int[][] haeRuudukko() {
+    public int[] haeRuudukko() {
         return this.ruudukko;
     }
     
@@ -95,4 +108,11 @@ public class Kentta {
         return this.miinanPaikat;
     }
     
+    public int getLeveys() {
+        return this.leveys;
+    }
+    
+    public int getPituus() {
+        return this.pituus;
+    }
 }
