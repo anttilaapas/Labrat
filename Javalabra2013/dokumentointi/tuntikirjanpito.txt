@@ -4,3 +4,6 @@ Aika		Päivämäärä	Kuvaus
 1,0 h		20.3.2013	Perustoiminnallisuuden koodausta
 5,0 h		22.3.2013	Perustoiminnallisuutta (miinojen arpominen ruudukkoon jne.),
 				testien lisäämistä, karkea luokkakaavio
+5,0 h		23.3.2013	Miinojen ja viereisten miinojen lisäystä, käyttöliittymää
+5,0 h		24.4.2013	Käyttöliittymää lisää - taustalla olevan miinakentän liittäminen
+				graafiseen käyttöliittymään
