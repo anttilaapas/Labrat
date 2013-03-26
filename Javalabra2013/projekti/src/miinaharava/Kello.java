@@ -22,6 +22,12 @@ public class Kello implements ActionListener {
     public JLabel aika;
     private int counter;
     
+    // testikonstruktori
+    public Kello() {
+        this.timer = new Timer(1000, this);
+        this.counter = 0;
+    }
+    
     public Kello(JLabel aika) {
         this.timer = new Timer(1000, this);
         this.aika = aika;
@@ -33,7 +39,7 @@ public class Kello implements ActionListener {
         aika.setText(getAika(counter++));
     }
 
-    private String getAika(int sekunnit) {
+    public String getAika(int sekunnit) {
         int min = sekunnit / 60;
         int sec = sekunnit - (60 * min);
         

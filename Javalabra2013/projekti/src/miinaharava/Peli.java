@@ -10,10 +10,10 @@ package miinaharava;
  */
 public class Peli {
 
-    Kentta kentta;
-    int[] ruudukko;
-    int leveys;
-    int pituus;
+    private Kentta kentta;
+    private int[] ruudukko;
+    private int leveys;
+    private int pituus;
 
     public Peli(Kentta kentta) {
         this.kentta = kentta;
@@ -21,7 +21,7 @@ public class Peli {
         this.leveys = kentta.getLeveys();
         this.pituus = kentta.getPituus();
     }
-    
+
     public boolean onMiina(int i) {
         if (ruudukko[i] == -1) {
             return true;
@@ -49,9 +49,37 @@ public class Peli {
         }
         return false;
     }
-
+    
     public boolean onOikeaReuna(int i) {
         if ((i + 1) % this.leveys == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean onVasenYlakulma(int i) {
+        if (i == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean onVasenAlakulma(int i) {
+        if ((i + 1) % leveys == 1 && (i+leveys) / leveys == pituus) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean onOikeaYlakulma(int i) {
+        if ((i + 1) % leveys == 0 && (i - leveys) < 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean onOikeaAlakulma(int i) {
+        if ((i + 1) % leveys == 0 && (i+leveys) / leveys == pituus) {
             return true;
         }
         return false;
@@ -72,136 +100,135 @@ public class Peli {
             if (!onMiina(i)) {
                 if (onVasenReuna(i)) {
                     if (onYlareuna(i)) {
-                        if (ruudukko[i+1] == -1) {
+                        if (ruudukko[i + 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i+leveys] == -1) {
+                        if (ruudukko[i + leveys] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i+leveys+1] == -1) {
+                        if (ruudukko[i + leveys + 1] == -1) {
                             ruudukko[i]++;
                         }
                     } else if (onAlareuna(i)) {
-                        if (ruudukko[i-leveys] == -1) {
+                        if (ruudukko[i - leveys] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i-leveys+1] == -1) {
+                        if (ruudukko[i - leveys + 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i+1] == -1) {
+                        if (ruudukko[i + 1] == -1) {
                             ruudukko[i]++;
                         }
                     } else {
-                        if (ruudukko[i-leveys] == -1) {
+                        if (ruudukko[i - leveys] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i-leveys+1] == -1) {
+                        if (ruudukko[i - leveys + 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i+1] == -1) {
+                        if (ruudukko[i + 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i+leveys] == -1) {
+                        if (ruudukko[i + leveys] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i+leveys+1] == -1) {
+                        if (ruudukko[i + leveys + 1] == -1) {
                             ruudukko[i]++;
                         }
                     }
                 } else if (onOikeaReuna(i)) {
                     if (onYlareuna(i)) {
-                        if (ruudukko[i-1] == -1) {
+                        if (ruudukko[i - 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i+leveys-1] == -1) {
+                        if (ruudukko[i + leveys - 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i+leveys] == -1) {
+                        if (ruudukko[i + leveys] == -1) {
                             ruudukko[i]++;
                         }
                     } else if (onAlareuna(i)) {
-                        if (ruudukko[i-1] == -1) {
+                        if (ruudukko[i - 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i-leveys-1] == -1) {
+                        if (ruudukko[i - leveys - 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i-leveys] == -1) {
+                        if (ruudukko[i - leveys] == -1) {
                             ruudukko[i]++;
                         }
-                    }
-                    else {
-                        if (ruudukko[i-leveys] == -1) {
+                    } else {
+                        if (ruudukko[i - leveys] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i-leveys-1] == -1) {
+                        if (ruudukko[i - leveys - 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i-1] == -1) {
+                        if (ruudukko[i - 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i+leveys-1] == -1) {
+                        if (ruudukko[i + leveys - 1] == -1) {
                             ruudukko[i]++;
                         }
-                        if (ruudukko[i+leveys] == -1) {
+                        if (ruudukko[i + leveys] == -1) {
                             ruudukko[i]++;
                         }
                     }
                 } else if (onKeskella(i)) {
-                    if (ruudukko[i-1] == -1) {
+                    if (ruudukko[i - 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i-leveys-1] == -1) {
+                    if (ruudukko[i - leveys - 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i-leveys] == -1) {
+                    if (ruudukko[i - leveys] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i-leveys+1] == -1) {
+                    if (ruudukko[i - leveys + 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i+1] == -1) {
+                    if (ruudukko[i + 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i+leveys+1] == -1) {
+                    if (ruudukko[i + leveys + 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i+leveys] == -1) {
+                    if (ruudukko[i + leveys] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i+leveys-1] == -1) {
+                    if (ruudukko[i + leveys - 1] == -1) {
                         ruudukko[i]++;
                     }
                 } else if (onAlareuna(i) && !onVasenReuna(i) && !onOikeaReuna(i)) {
-                    if (ruudukko[i-1] == -1) {
+                    if (ruudukko[i - 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i-leveys-1] == -1) {
+                    if (ruudukko[i - leveys - 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i-leveys] == -1) {
+                    if (ruudukko[i - leveys] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i-leveys+1] == -1) {
+                    if (ruudukko[i - leveys + 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i+1] == -1) {
+                    if (ruudukko[i + 1] == -1) {
                         ruudukko[i]++;
                     }
-                }  else if (onYlareuna(i) && !onVasenReuna(i) && !onOikeaReuna(i)) {
-                    if (ruudukko[i-1] == -1) {
+                } else if (onYlareuna(i) && !onVasenReuna(i) && !onOikeaReuna(i)) {
+                    if (ruudukko[i - 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i+leveys-1] == -1) {
+                    if (ruudukko[i + leveys - 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i+leveys] == -1) {
+                    if (ruudukko[i + leveys] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i+leveys+1] == -1) {
+                    if (ruudukko[i + leveys + 1] == -1) {
                         ruudukko[i]++;
                     }
-                    if (ruudukko[i+1] == -1) {
+                    if (ruudukko[i + 1] == -1) {
                         ruudukko[i]++;
                     }
                 }

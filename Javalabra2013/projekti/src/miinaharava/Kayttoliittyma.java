@@ -11,6 +11,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,13 +41,21 @@ public class Kayttoliittyma implements Runnable, ActionListener {
     private Kentta kentta;
     private Peli peli;
     private JLabel lopputulos;
+    private ArrayList<Integer> miinojenPaikat;
+    private ArrayList<Integer> painetutRuudut;
+    private int leveys;
+    private int pituus;
+    private boolean peliOhi;
+
+    public void mouseClicked(MouseEvent e) {
+    }
 
     @Override
     public void run() {
         frame = new JFrame("Miinaharava");
         frame.setPreferredSize(new Dimension(600, 400));
         // kielletään käyttöliittymän koon muuttaminen
-        frame.setResizable(false);
+        frame.setResizable(true);
 
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -96,13 +107,13 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         //contentPane.add(pituus, BorderLayout.NORTH);
         contentPane.add(panel, BorderLayout.NORTH);
         this.aika = new JLabel("00:00");
-        
+
         JPanel alarivi = new JPanel();
         alarivi.add(aika);
-        
+
         lopputulos = new JLabel();
         alarivi.add(lopputulos);
-        
+
         contentPane.add(alarivi, BorderLayout.SOUTH);
 
         aloita.addActionListener(this);
@@ -110,61 +121,207 @@ public class Kayttoliittyma implements Runnable, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // jos painetaan Aloita-nappia
         if (e.getSource() == aloita) {
-            
-            int leveys = Integer.parseInt(this.leveysKentta.getText());
-            int pituus = Integer.parseInt(this.pituusKentta.getText());
-            int vaikeus = 0;
 
+            // haetaan pelikenttien pituus ja leveys tekstikentistä
+            leveys = Integer.parseInt(this.leveysKentta.getText());
+            pituus = Integer.parseInt(this.pituusKentta.getText());
+            int vaikeus = 0;
+            this.peliOhi = false;
+
+            // pelin vaikeusaste (miinojen lkm) saadaan valintanapista
             for (int i = 0; i < 3; i++) {
                 if (vaikeusaste[i].isSelected()) {
                     vaikeus = i;
                 }
             }
-            
-            ruudut = new JButton[leveys*pituus];
-            
-            GridLayout gridlayout = new GridLayout(leveys, pituus);
-            
-            JPanel ruutuPanel = new JPanel();
-            ruutuPanel.setLayout(gridlayout);
-            
-            for (int i=0; i < leveys*pituus; i++) {
-                ruudut[i] = new JButton("");
-                ruudut[i].addActionListener(this);
-                ruudut[i].setActionCommand(String.valueOf(i));
-                ruutuPanel.add(ruudut[i]);
-            }
-            frame.getContentPane().add(ruutuPanel, BorderLayout.CENTER);
 
+            piirraRuudukko(leveys, pituus);
+
+            // luodaan taustalle ruudukko, johon on tallennettu miinojen paikka
+            // sekä viereisten miinojen lukumäärä
             kentta = new Kentta(leveys, pituus, vaikeus);
 
-            kentta.tulostaRuudukko();
+            this.miinojenPaikat = kentta.miinojenPaikat();
+            this.painetutRuudut = new ArrayList<Integer>();
 
             peli = new Peli(kentta);
             peli.aloita();
-            
+
+            // käynnistetään kello
             this.kello = new Kello(this.aika);
             this.kello.aloita();
+
+            // jos painetaan jotain peliruutua, näytetään joko miina (punaisella taustalla)
+            // tai miinojen lkm (valkoisella taustalla)
         } else {
-            int painettu = Integer.parseInt((String) e.getActionCommand());
-            System.out.println(painettu);
-            
-            String vieressa;
-            
-            if (peli.vieressaMiinoja(painettu) == -1) {
-                vieressa = "*";
-                lopputulos.setText("HÄVISIT!");
-                ruudut[painettu].setBackground(Color.red);
-                kello.lopeta();
-                
-            } else {
-                vieressa = String.valueOf(peli.vieressaMiinoja(painettu));
-                ruudut[painettu].setBackground(Color.white);
+            if (!peliOhi) {
+                int painettu = Integer.parseInt((String) e.getActionCommand());
+                System.out.println(painettu);
+
+                String vieressa;
+
+                // jos painetaan miinaa
+                if (peli.vieressaMiinoja(painettu) == -1) {
+                    vieressa = miinaaPainettu(painettu);
+                // jos painetaan ruutua, jonka vieressä ei ole miinoja
+                } else if (peli.vieressaMiinoja(painettu) == 0) {
+                    vieressa = eiViereisiaMiinoja(painettu);
+                // muutoin
+                } else {
+                    vieressa = vieressaMiinoja(painettu);
+
+                }
+                System.out.println("PAINETUT: " + this.painetutRuudut.size());
+                ruudut[painettu].setText(vieressa);
             }
-            
-            ruudut[painettu].setText(vieressa);
-            
         }
+
+    }
+
+    private void naytaKokoKentta(int painettu) {
+        for (int i = 0; i < this.leveys * this.pituus; i++) {
+            String vieressa = "";
+            if (i == painettu) {
+                continue;
+            }
+
+            if (peli.vieressaMiinoja(i) == -1) {
+                vieressa = "*";
+
+            } else if (peli.vieressaMiinoja(i) == 0) {
+                vieressa = "";
+                ruudut[i].setBackground(Color.white);
+            } else {
+                vieressa = String.valueOf(peli.vieressaMiinoja(i));
+            }
+
+
+            ruudut[i].setText(vieressa);
+        }
+    }
+
+    private void naytaViereisetTyhjat(int i) {
+
+        int viereiset = peli.vieressaMiinoja(i);
+
+        if (viereiset != 0) {
+            ruudut[i].setText(String.valueOf(viereiset));
+            if (!this.painetutRuudut.contains(i)) {
+                this.painetutRuudut.add(i);
+            }
+        } else {
+            if (!this.painetutRuudut.contains(i)) {
+                ruudut[i].setBackground(Color.white);
+                this.painetutRuudut.add(i);
+                if (peli.onVasenYlakulma(i)) {
+                    naytaViereisetTyhjat(i + 1);
+                    naytaViereisetTyhjat(i + leveys + 1);
+                    naytaViereisetTyhjat(i + leveys);
+                } else if (peli.onOikeaYlakulma(i)) {
+                    naytaViereisetTyhjat(i - 1);
+                    naytaViereisetTyhjat(i + leveys - 1);
+                    naytaViereisetTyhjat(i + leveys);
+                } else if (peli.onVasenAlakulma(i)) {
+                    naytaViereisetTyhjat(i + 1);
+                    naytaViereisetTyhjat(i - leveys + 1);
+                    naytaViereisetTyhjat(i - leveys);
+                } else if (peli.onOikeaAlakulma(i)) {
+                    naytaViereisetTyhjat(i - 1);
+                    naytaViereisetTyhjat(i - leveys - 1);
+                    naytaViereisetTyhjat(i - leveys);
+                } else if (peli.onVasenReuna(i) && !peli.onVasenAlakulma(i)
+                        && !peli.onVasenYlakulma(i)) {
+                    naytaViereisetTyhjat(i - leveys);
+                    naytaViereisetTyhjat(i - leveys + 1);
+                    naytaViereisetTyhjat(i + 1);
+                    naytaViereisetTyhjat(i + leveys + 1);
+                    naytaViereisetTyhjat(i + leveys);
+                } else if (peli.onOikeaReuna(i) && !peli.onOikeaAlakulma(i)
+                        && !peli.onOikeaYlakulma(i)) {
+                    naytaViereisetTyhjat(i - leveys);
+                    naytaViereisetTyhjat(i - leveys - 1);
+                    naytaViereisetTyhjat(i - 1);
+                    naytaViereisetTyhjat(i + leveys - 1);
+                    naytaViereisetTyhjat(i + leveys);
+                } else if (peli.onAlareuna(i) && !peli.onVasenAlakulma(i)
+                        && !peli.onOikeaAlakulma(i)) {
+                    naytaViereisetTyhjat(i - 1);
+                    naytaViereisetTyhjat(i - leveys - 1);
+                    naytaViereisetTyhjat(i - leveys);
+                    naytaViereisetTyhjat(i - leveys + 1);
+                    naytaViereisetTyhjat(i + 1);
+                } else if (peli.onYlareuna(i) && !peli.onVasenYlakulma(i)
+                        && !peli.onOikeaYlakulma(i)) {
+                    naytaViereisetTyhjat(i - 1);
+                    naytaViereisetTyhjat(i + leveys - 1);
+                    naytaViereisetTyhjat(i + leveys);
+                    naytaViereisetTyhjat(i + leveys + 1);
+                    naytaViereisetTyhjat(i + 1);
+                } else if (peli.onKeskella(i)) {
+                    naytaViereisetTyhjat(i - 1);
+                    naytaViereisetTyhjat(i + leveys - 1);
+                    naytaViereisetTyhjat(i + leveys);
+                    naytaViereisetTyhjat(i + leveys + 1);
+                    naytaViereisetTyhjat(i - leveys - 1);
+                    naytaViereisetTyhjat(i - leveys);
+                    naytaViereisetTyhjat(i - leveys + 1);
+                    naytaViereisetTyhjat(i + 1);
+                }
+            }
+        }
+
+    }
+
+    // piirretään leveys*pituus verran nappuloita, joista
+    // muodostuu peliruudukko
+    public void piirraRuudukko(int leveys, int pituus) {
+
+        ruudut = new JButton[leveys * pituus];
+        GridLayout gridlayout = new GridLayout(leveys, pituus);
+
+        JPanel ruutuPanel = new JPanel();
+        ruutuPanel.setLayout(gridlayout);
+
+        for (int i = 0; i < leveys * pituus; i++) {
+            ruudut[i] = new JButton("");
+            ruudut[i].addActionListener(this);
+            ruudut[i].setActionCommand(String.valueOf(i));
+            ruudut[i].addMouseListener(new HiirenKuuntelija());
+            ruutuPanel.add(ruudut[i]);
+        }
+        frame.getContentPane().add(ruutuPanel, BorderLayout.CENTER);
+    }
+
+    public String miinaaPainettu(int painettu) {
+
+        lopputulos.setText("HÄVISIT!");
+        ruudut[painettu].setBackground(Color.red);
+        naytaKokoKentta(painettu);
+        this.peliOhi = true;
+        kello.lopeta();
+
+        return "*";
+    }
+
+    public String eiViereisiaMiinoja(int painettu) {
+
+        ruudut[painettu].setBackground(Color.white);
+        naytaViereisetTyhjat(painettu);
+        return "";
+    }
+
+    public String vieressaMiinoja(int painettu) {
+
+        if (!this.painetutRuudut.contains(painettu)) {
+            this.painetutRuudut.add(painettu);
+        }
+
+        if (this.miinojenPaikat.size() + this.painetutRuudut.size() == (this.leveys * this.pituus)) {
+            this.lopputulos.setText("VOITIT!");
+            this.peliOhi = true;
+        }
+        return String.valueOf(peli.vieressaMiinoja(painettu));
     }
 }

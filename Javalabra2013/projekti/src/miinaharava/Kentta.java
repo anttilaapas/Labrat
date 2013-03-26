@@ -77,7 +77,7 @@ public class Kentta {
     
     
     public void tulostaRuudukko() {
-        
+        System.out.println("Leveys: " + this.leveys + ", pituus: " + this.pituus);
         for (int i = 0; i < ruudukko.length; i++) {
             if ((i+1) % this.leveys == 0) {
                 if (ruudukko[i] == -1) {

@@ -7,3 +7,5 @@ Aika		Päivämäärä	Kuvaus
 5,0 h		23.3.2013	Miinojen ja viereisten miinojen lisäystä, käyttöliittymää
 5,0 h		24.4.2013	Käyttöliittymää lisää - taustalla olevan miinakentän liittäminen
 				graafiseen käyttöliittymään
+2,0 h		25.4.2013	Toiminnallisuus lähes kunnossa
+2,0 h		26.4.2013	Viilausta ja luokkakaavio 2
