@@ -9,8 +9,9 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- *
- * @author antti
+ * @author      Antti Laapas
+ * @version     0.8
+ * @since       2013-03-15
  */
 public class Kentta {
     
@@ -21,6 +22,17 @@ public class Kentta {
     private int leveys;
     private int pituus;
         
+    /*
+     * Luo pelikentän, joka on ensin tyhjä, ja tämän jälkeen
+     * kutsuu luoMiinat-metodia, joka luo miinat kenttään
+     * 
+     * @param   leveys  pelikentän leveys
+     * @param   pituus  pelikentän pituus
+     * @param   pelikentän vaikeus (0: helppo, 1: keskivaikea, 2: vaikea)
+     * 
+     * 
+     */
+    
     
     public Kentta(int leveys, int pituus, int vaikeus) {
         
@@ -31,6 +43,17 @@ public class Kentta {
        
     }
     
+    
+    /*
+     * Määrittelee miinojen lukumäärän pelin vaikeusasteen mukaan, ja sen jälkeen
+     * kutsuu arvoMiinojenSijainti-funktiota arpoen miinojen sijainnin ja sen jälkeen
+     * kutsuu asetaMiinatRuudukkoon-metodia asettaen arvotut miinat ruudukkoon
+     * 
+     * @param   leveys  pelikentän leveys
+     * @param   pituus  pelikentän pituus
+     * @param   pelikentän vaikeus (0: helppo, 1: keskivaikea, 2: vaikea)
+     * 
+     */
     
     public void luoMiinat(int leveys, int pituus, int vaikeus) {
         
@@ -46,8 +69,15 @@ public class Kentta {
         asetaMiinatRuudukkoon();
     }
     
+    /*
+     * Arpoo niin monta miinaa pelikenttään, kuin tarvitaan
+     * 
+     * @param   miinat  miinojen lukumäärä
+     * @param   leveys  pelikentän leveys
+     * @param   pituus  pelikentän pituus
+     * 
+     */
     
-    // tässä arvotaan miinojen sijainti ruudukkoon
     public void arvoMiinojenSijainti(int miinat, int leveys, int pituus) {
         miinanPaikat = new ArrayList<Integer>();
         
@@ -63,12 +93,14 @@ public class Kentta {
         Collections.sort(miinanPaikat);
     }
     
-    // miinojen asetus ruudukkoon
+    /*
+     * Asettaa miinat peliruudukkoon. Miinojen paikat saadaan miinanPaikat-listasta
+     * ja vastaaville kohdille ruudukko-taulukossa asetetaan arvo -1 osoittamaan miinaa
+     * 
+     */
     public void asetaMiinatRuudukkoon() {
         
         for (int i : miinanPaikat) {
-            //System.out.println("Miinanpaikka: " + i);
-            //System.out.println(i/leveys + ", " + i%pituus + ", " + leveys + ", " + pituus);
             ruudukko[i] = -1;
         }
     }

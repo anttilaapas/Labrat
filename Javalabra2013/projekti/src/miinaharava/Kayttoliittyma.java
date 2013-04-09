@@ -24,9 +24,11 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- *
- * @author antti
+ * @author      Antti Laapas
+ * @version     0.8
+ * @since       2013-03-20
  */
+
 public class Kayttoliittyma implements Runnable, ActionListener {
 
     private JFrame frame;
@@ -57,9 +59,7 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         // kielletään käyttöliittymän koon muuttaminen
         frame.setResizable(true);
 
-
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
 
         luoKomponentit(frame.getContentPane());
 
@@ -69,6 +69,9 @@ public class Kayttoliittyma implements Runnable, ActionListener {
     }
 
     private void luoKomponentit(Container contentPane) {
+        
+        // haetaan leveys, pituus ja vaikeus käyttöliittymän
+        // kentistä
         JLabel label1 = new JLabel("Leveys: ");
         leveysKentta = new JTextField(3);
 
@@ -88,23 +91,17 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         }
 
         this.aloita = new JButton("Aloita!");
-
         JPanel panel = new JPanel();
 
         panel.add(label1);
         panel.add(leveysKentta);
         panel.add(label2);
         panel.add(pituusKentta);
-        //panel.add(label3);
         panel.add(vaikeus);
         panel.add(aloita);
 
         contentPane.setLayout(new BorderLayout());
 
-        //contentPane.add(label1, BorderLayout.NORTH);
-        //contentPane.add(leveys, BorderLayout.NORTH);
-        //contentPane.add(label2, BorderLayout.NORTH);
-        //contentPane.add(pituus, BorderLayout.NORTH);
         contentPane.add(panel, BorderLayout.NORTH);
         this.aika = new JLabel("00:00");
 
@@ -179,7 +176,15 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         }
 
     }
-
+    
+    /*
+     * Näyttää koko pelikentän miinat ja viereisten miinojen lukumäärän,
+     * jos käyttäjä on painanut miinan kohtaa
+     * 
+     * @param   painettu   miinan kohta ruudukossa, jota on juuri painettu
+     * 
+     */
+    
     private void naytaKokoKentta(int painettu) {
         for (int i = 0; i < this.leveys * this.pituus; i++) {
             String vieressa = "";
@@ -201,6 +206,15 @@ public class Kayttoliittyma implements Runnable, ActionListener {
             ruudut[i].setText(vieressa);
         }
     }
+    
+    /*
+     * Näyttää kaikki viereiset tyhjät kohdat peliruudukosta, jos käyttäjä
+     * painaa ruutua, jonka vieressä miinaa ei ole. Näytetään myös tyhjien ruutujen
+     * viereiset ruudut
+     * 
+     * @param   i   tyhjä kohta ruudukossa, jota käyttäjä on painanut
+     * 
+     */
 
     private void naytaViereisetTyhjat(int i) {
 
@@ -273,9 +287,16 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         }
 
     }
-
-    // piirretään leveys*pituus verran nappuloita, joista
-    // muodostuu peliruudukko
+    
+    /*
+     * piirretään leveys*pituus verran nappuloita, joista
+     * muodostuu peliruudukko
+     * 
+     * @param   leveys   pelikentän leveys
+     * @param   pituus   pelikentän pituus
+     * 
+     */
+    // 
     public void piirraRuudukko(int leveys, int pituus) {
 
         ruudut = new JButton[leveys * pituus];

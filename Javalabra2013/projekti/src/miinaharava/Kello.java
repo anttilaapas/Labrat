@@ -10,8 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 
 /**
- *
- * @author antti
+ * @author      Antti Laapas
+ * @version     0.8
+ * @since       2013-03-20
  */
 
 

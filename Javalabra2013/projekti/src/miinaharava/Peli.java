@@ -5,9 +5,11 @@
 package miinaharava;
 
 /**
- *
- * @author antti
+ * @author      Antti Laapas
+ * @version     0.8
+ * @since       2013-03-15
  */
+
 public class Peli {
 
     private Kentta kentta;
@@ -22,6 +24,11 @@ public class Peli {
         this.pituus = kentta.getPituus();
     }
 
+/*
+ * Metodi kertoo, onko 
+ * 
+ */
+                    
     public boolean onMiina(int i) {
         if (ruudukko[i] == -1) {
             return true;
