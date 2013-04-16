@@ -1,8 +1,8 @@
 
-import miinaharava.Kello;
+import miinaharava.logiikka.Kello;
 import java.util.ArrayList;
 import java.util.Collections;
-import miinaharava.Kentta;
+import miinaharava.logiikka.Kentta;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

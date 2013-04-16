@@ -3,8 +3,8 @@
  * and open the template in the editor.
  */
 
-import miinaharava.Kentta;
-import miinaharava.Peli;
+import miinaharava.logiikka.Kentta;
+import miinaharava.logiikka.Peli;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

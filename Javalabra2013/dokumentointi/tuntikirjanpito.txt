@@ -10,3 +10,5 @@ Aika		Päivämäärä	Kuvaus
 2,0 h		25.3.2013	Toiminnallisuus lähes kunnossa
 2,0 h		26.3.2013	Viilausta ja luokkakaavio 2
 3,0 h		9.4.2013	Javadocia ja sekvenssikaavioita
+2,0 h		16.4.2013	Koodikatselmointi
+2,0 h		17.4.2013	Koodin refaktorointia

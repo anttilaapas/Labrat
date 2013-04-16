@@ -4,6 +4,7 @@
  */
 package miinaharava;
 
+import miinaharava.kayttoliittyma.Kayttoliittyma;
 import javax.swing.SwingUtilities;
 
 /**
