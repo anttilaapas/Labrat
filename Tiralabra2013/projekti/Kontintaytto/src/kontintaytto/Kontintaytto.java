@@ -4,6 +4,8 @@
  */
 package kontintaytto;
 
+import kontintaytto.sarmiot.Kontti;
+import kontintaytto.sarmiot.Paketti;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -44,7 +46,7 @@ public class Kontintaytto {
             paketit.add(paketti);
         }
         
-        kontti.tayta(paketit);
+        //kontti.tayta(paketit);
         
     }
 }
