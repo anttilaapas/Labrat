@@ -4,6 +4,8 @@
  */
 package kontintaytto;
 
+import kontintaytto.tiedot.KonttienTiedot;
+import kontintaytto.tiedot.PakettienMaara;
 import java.util.Scanner;
 
 /**
@@ -38,5 +40,13 @@ public class Main {
         System.out.println("3-laatikkojen tilavuus: " + paketit.getPaketti(3).getTilavuus() * paketit.pakettienMaara(3));
         
         System.out.println("Laatikoita yhteensä: " + paketit.kaikkienPakettienMaara());
+        
+        Kontintaytto taytto = new Kontintaytto(kontit, paketit);
+        
+        taytto.tayta();
+        System.out.println("Konttilistan koko: " + taytto.getKonttiListanKoko());
+        
+        taytto.konttienInformaatio();
+        
     }
 }
