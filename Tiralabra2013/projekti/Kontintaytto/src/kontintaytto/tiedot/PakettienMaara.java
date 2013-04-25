@@ -26,9 +26,9 @@ public class PakettienMaara {
     public PakettienMaara(Scanner lukija) {
         this.lukija = lukija;
         
-        this.paketti1 = new Paketti(1, 2, 3);
+        this.paketti1 = new Paketti(6, 6, 6);
         this.paketti2 = new Paketti(3, 4, 5);
-        this.paketti3 = new Paketti(6, 6, 6);
+        this.paketti3 = new Paketti(1, 2, 3);
     }
 
     public void laatikoidenKyselija() {

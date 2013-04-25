@@ -4,6 +4,7 @@
  */
 package kontintaytto;
 
+import java.security.Timestamp;
 import kontintaytto.tiedot.KonttienTiedot;
 import kontintaytto.tiedot.PakettienMaara;
 import java.util.Scanner;
@@ -23,12 +24,10 @@ public class Main {
         PakettienMaara paketit = new PakettienMaara(lukija);
         paketit.laatikoidenKyselija();
         
-        
         KonttienTiedot kontit = new KonttienTiedot(lukija);
         kontit.konttienKyselija();
         
         System.out.println("Kontin koko: " + kontit.kontinTilavuus());
-        
         
         System.out.println("1-laatikkoja: " + paketit.pakettienMaara(1));
         System.out.println("1-laatikkojen tilavuus: " + paketit.getPaketti(1).getTilavuus() * paketit.pakettienMaara(1));
@@ -43,10 +42,19 @@ public class Main {
         
         Kontintaytto taytto = new Kontintaytto(kontit, paketit);
         
+        
+        long alku = System.nanoTime();
         taytto.tayta();
+        long loppu = System.nanoTime();
         System.out.println("Konttilistan koko: " + taytto.getKonttiListanKoko());
         
+        long aika = (loppu - alku) / 1000000000;
+        
+        
         taytto.konttienInformaatio();
+        
+        
+        System.out.println("\nKäytetty aika: " + aika + " sekuntia.");
         
     }
 }

@@ -26,13 +26,13 @@ public class KonttienTiedot {
     public void konttienKyselija() {
         System.out.println("\nAnna konttien mitat (kaikki kontit samanmittaisia)");
         
-        System.out.print("Kontin leveys (cm): ");
+        System.out.print("Kontin leveys: ");
         int leveys = Integer.parseInt(lukija.nextLine());
 
-        System.out.print("Kontin pituus (cm): ");
+        System.out.print("Kontin pituus: ");
         int pituus = Integer.parseInt(lukija.nextLine());
 
-        System.out.print("Kontin korkeus (cm): ");
+        System.out.print("Kontin korkeus: ");
         int korkeus = Integer.parseInt(lukija.nextLine());
         
         this.kontti = new Kontti(leveys, pituus, korkeus);
