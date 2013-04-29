@@ -1,0 +1,12 @@
+
+KÄYTTÖOHJEET
+
+Valitse ensin haluamasi peliruudukon koko (suositeltava: n. 7-20) ja sen jälkeen, haluatko helpon, keskivaikean vai vaikean pelin. Vaikeusaste määrää sen, kuinka monta miinaa ruudukossa on.
+
+Tehtävänäsi on saada kaikki muut ruudut auki, paitsi ne, joissa on miina. Painettuasi ruutua, jossa on miina, olet hävinnyt pelin ja peliruudukko avataan. Mikäli painat ruutua, jossa ei ole miinaa, näet, kuinka monta miinaa ruudun vieressä on.
+
+Voit helpottaa työtäsi painamalla hiiren oikealla näppäimellä ruutua, jossa uskot miinan olevan - saat merkin pois klikkaamalla samaa ruutua jälleen hiiren oikealla näppäimellä.
+
+Kun olet avannut kaikki muut ruudut joko klikkaamalla niitä yksitellen tai saamalla niitä auki painamalla jotain täysin tyhjää ruutua (=ei viereisiä ruutuja), olet voittanut pelin.
+
+Voit aloittaa uuden pelin painamalla painiketta "aloita" vasta sen jälkeen, kun edellinen peli on loppunut.
