@@ -21,17 +21,17 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * @author      Antti Laapas
- * @version     0.8
- * @since       2013-03-20
+ * @author Antti Laapas
+ * @version 0.8
+ * @since 2013-03-20
  */
-
 public class Kayttoliittyma implements Runnable, ActionListener {
 
     private JFrame frame;
@@ -49,8 +49,8 @@ public class Kayttoliittyma implements Runnable, ActionListener {
     private ArrayList<Integer> miinojenPaikat;
     private ArrayList<Integer> painetutRuudut;
     private int sivunPituus;
-
-    private boolean peliOhi;
+    private boolean peliOhi = true;
+    private JPanel ruutuPanel = new JPanel();
 
     public void mouseClicked(MouseEvent e) {
     }
@@ -72,7 +72,7 @@ public class Kayttoliittyma implements Runnable, ActionListener {
     }
 
     private void luoKomponentit(Container contentPane) {
-        
+
         // haetaan leveys, pituus ja vaikeus käyttöliittymän
         // kentistä
         JLabel label1 = new JLabel("Sivun pituus: ");
@@ -88,10 +88,13 @@ public class Kayttoliittyma implements Runnable, ActionListener {
             new JRadioButton("Keskivaikea"),
             new JRadioButton("Vaikea")
         };
+        
         for (int i = 0; i < vaikeusaste.length; i++) {
             vaikeusasteRyhma.add(vaikeusaste[i]);
             vaikeus.add(vaikeusaste[i]);
         }
+
+        this.ruutuPanel.removeAll();
 
         this.aloita = new JButton("Aloita!");
         JPanel panel = new JPanel();
@@ -121,7 +124,7 @@ public class Kayttoliittyma implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // jos painetaan Aloita-nappia
-        if (e.getSource() == aloita) {
+        if (e.getSource() == aloita && this.peliOhi) {
 
             // haetaan pelikenttien pituus ja leveys tekstikentistä
             sivunPituus = Integer.parseInt(this.ruudukonKoko.getText());
@@ -148,6 +151,8 @@ public class Kayttoliittyma implements Runnable, ActionListener {
             peli = new Peli(kentta);
             peli.aloita();
 
+            this.lopputulos.setText("");
+
             // käynnistetään kello
             this.kello = new Kello(this.aika);
             this.kello.aloita();
@@ -155,7 +160,7 @@ public class Kayttoliittyma implements Runnable, ActionListener {
             // jos painetaan jotain peliruutua, näytetään joko miina (punaisella taustalla)
             // tai miinojen lkm (valkoisella taustalla)
         } else {
-            if (!peliOhi) {
+            if (!peliOhi && e.getSource() != aloita) {
                 int painettu = Integer.parseInt((String) e.getActionCommand());
                 System.out.println(painettu);
 
@@ -164,21 +169,34 @@ public class Kayttoliittyma implements Runnable, ActionListener {
                 // jos painetaan miinaa
                 if (peli.vieressaMiinoja(painettu) == -1) {
                     vieressa = miinaaPainettu(painettu);
-                // jos painetaan ruutua, jonka vieressä ei ole miinoja
+                    ruudut[painettu].setText(vieressa);
+                    havinneenViesti();
+                    this.ruutuPanel.removeAll();
+                    // jos painetaan ruutua, jonka vieressä ei ole miinoja
                 } else if (peli.vieressaMiinoja(painettu) == 0) {
                     vieressa = eiViereisiaMiinoja(painettu);
-                // muutoin
+                    ruudut[painettu].setText(vieressa);
+                    // muutoin
                 } else {
                     vieressa = vieressaMiinoja(painettu);
-
+                    ruudut[painettu].setText(vieressa);
                 }
                 System.out.println("PAINETUT: " + this.painetutRuudut.size());
-                ruudut[painettu].setText(vieressa);
+                
+                voitonTarkistus();
             }
         }
 
     }
-    
+
+    public void voittaneenViesti() {
+        JOptionPane.showMessageDialog(null, "OU JEE, SIE VOITIT!" + "\nAikaa ehti kulua " + kello.getSekunnit() + " sekuntia.", "Tulos", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void havinneenViesti() {
+        JOptionPane.showMessageDialog(null, "ÖY NÖY, SIE HÄVISIT!" + "\nAikaa ehti kulua " + kello.getSekunnit() + " sekuntia\nja ehdit saada " + this.painetutRuudut.size() + " ruutua auki.", "Tulos", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     /*
      * Näyttää koko pelikentän miinat ja viereisten miinojen lukumäärän,
      * jos käyttäjä on painanut miinan kohtaa
@@ -186,7 +204,6 @@ public class Kayttoliittyma implements Runnable, ActionListener {
      * @param   painettu   miinan kohta ruudukossa, jota on juuri painettu
      * 
      */
-    
     private void naytaKokoKentta(int painettu) {
         for (int i = 0; i < this.sivunPituus * this.sivunPituus; i++) {
             String vieressa = "";
@@ -206,9 +223,11 @@ public class Kayttoliittyma implements Runnable, ActionListener {
 
 
             ruudut[i].setText(vieressa);
+
+
         }
     }
-    
+
     /*
      * Näyttää kaikki viereiset tyhjät kohdat peliruudukosta, jos käyttäjä
      * painaa ruutua, jonka vieressä miinaa ei ole. Näytetään myös tyhjien ruutujen
@@ -217,7 +236,6 @@ public class Kayttoliittyma implements Runnable, ActionListener {
      * @param   i   tyhjä kohta ruudukossa, jota käyttäjä on painanut
      * 
      */
-
     private void naytaViereisetTyhjat(int i) {
 
         int viereiset = peli.vieressaMiinoja(i);
@@ -289,7 +307,7 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         }
 
     }
-    
+
     /*
      * piirretään leveys*pituus verran nappuloita, joista
      * muodostuu peliruudukko
@@ -304,7 +322,8 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         ruudut = new JButton[leveys * pituus];
         GridLayout gridlayout = new GridLayout(leveys, pituus);
 
-        JPanel ruutuPanel = new JPanel();
+        this.ruutuPanel = new JPanel();
+
         ruutuPanel.setLayout(gridlayout);
 
         for (int i = 0; i < leveys * pituus; i++) {
@@ -325,6 +344,7 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         this.peliOhi = true;
         kello.lopeta();
 
+
         return "*";
     }
 
@@ -341,10 +361,17 @@ public class Kayttoliittyma implements Runnable, ActionListener {
             this.painetutRuudut.add(painettu);
         }
 
+        
+        return String.valueOf(peli.vieressaMiinoja(painettu));
+    }
+
+    private void voitonTarkistus() {
         if (this.miinojenPaikat.size() + this.painetutRuudut.size() == (this.sivunPituus * this.sivunPituus)) {
             this.lopputulos.setText("VOITIT!");
             this.peliOhi = true;
+            kello.lopeta();
+            voittaneenViesti();
+            this.ruutuPanel.removeAll();
         }
-        return String.valueOf(peli.vieressaMiinoja(painettu));
     }
 }

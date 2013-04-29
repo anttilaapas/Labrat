@@ -38,7 +38,7 @@ public class Arpoja {
         } else if (vaikeus == 2) {
             miinat = leveys * pituus / 3;
         }
-        System.out.println(miinat);
+        //System.out.println(miinat);
         return miinat;
     }
 

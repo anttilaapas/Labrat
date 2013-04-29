@@ -21,14 +21,25 @@ import javax.swing.JTextField;
 
 public class HiirenKuuntelija extends MouseAdapter {
     
+    private int arvattujaMiinoja = 0;
+    
     
     @Override
     public void mouseClicked(MouseEvent e) {
         JButton nappi = (JButton) e.getSource();
         
         if (e.getButton() == MouseEvent.BUTTON3) {
-            nappi.setText("O");
+            if (nappi.getText().equals("O")) {
+                nappi.setText("");
+                this.arvattujaMiinoja--;
+            } else {
+                nappi.setText("O");
+                this.arvattujaMiinoja++;
+            }
         }
-        
+    }
+    
+    public int arvatutMiinat() {
+        return this.arvattujaMiinoja;
     }
 }

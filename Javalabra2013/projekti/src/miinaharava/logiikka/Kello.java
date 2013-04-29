@@ -34,6 +34,10 @@ public class Kello implements ActionListener {
         this.aika = aika;
         this.counter = 0;
     }
+    
+    public int getSekunnit() {
+        return this.counter - 1;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
