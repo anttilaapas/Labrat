@@ -1,0 +1,6 @@
+
+TESTAUSDOKUMENTTI
+
+Automaattisesti en testannut mm. sitä, toimiiko viereisten miinojen lukumäärän näyttäminen oikein. Kun ne luodaan Kentta-, Arpoja- ja Peli-luokkien kautta arpomalla, niin jotta testaaminen onnistuisi, olisi pitänyt vähän ronkkia ohjelman sisältöä testeihin sopivampaan muotoon. Testaaminen onnistui yksinkertaisesti pelaamalla peliä useita eri kertoja ja laskemalla monesti viereisten miinojen lukumäärän + vertaamalla sitä näytettyyn arvoon.
+
+Pelin pysähtymiseen (myös kellon pysähtyminen) miinan painamisen jälkeen tai kun peli on ratkaistu voitokkaasti koin myös vaikeaksi tehdä testejä, joten jälleen yksinkertaisesti pelaamalla peliä tulin vakuuttuneeksi siitä, että peli toimii.
