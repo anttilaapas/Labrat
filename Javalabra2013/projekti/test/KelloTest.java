@@ -40,7 +40,7 @@ public class KelloTest {
     
     @Test
     public void oikeaAikaYliMinuutissa() {     
-        assertEquals("03:01", kello.getAika(181));
+        assertEquals("3:01", kello.getAika(181));
     }
     
     @Test

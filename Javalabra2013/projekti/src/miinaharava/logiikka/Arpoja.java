@@ -37,6 +37,8 @@ public class Arpoja {
             miinat = leveys * pituus / 6;
         } else if (vaikeus == 2) {
             miinat = leveys * pituus / 3;
+        } else if (vaikeus == 3) {
+            miinat = leveys * pituus;
         }
         //System.out.println(miinat);
         return miinat;
@@ -57,7 +59,7 @@ public class Arpoja {
             while (true) {
                 int paikka = random.nextInt(leveys * pituus);
                 if (!miinanPaikat.contains(paikka)) {
-                    miinanPaikat.add(random.nextInt(leveys * pituus));
+                    miinanPaikat.add(paikka);
                     break;
                 }
             }
@@ -70,6 +72,9 @@ public class Arpoja {
     /*
      * Asettaa miinat peliruudukkoon. Miinojen paikat saadaan miinanPaikat-listasta
      * ja vastaaville kohdille ruudukko-taulukossa asetetaan arvo -1 osoittamaan miinaa
+     * 
+     * @param   miinanPaikat    miinojen paikat ruudukossa
+     * @param   ruudukko        ruudukko, johon miinat asetetaan
      * 
      */
     public int[] asetaMiinatRuudukkoon(ArrayList<Integer> miinanPaikat, int[] ruudukko) {

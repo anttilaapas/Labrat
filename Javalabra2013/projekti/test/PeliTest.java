@@ -17,37 +17,58 @@ public class PeliTest {
 
     public PeliTest() {
     }
-    Kentta kentta = new Kentta(5, 5, 2);
-    Peli peli = new Peli(kentta);
-    int[] ruudukko;
+    Kentta kentta;
+    Peli peli;
     
 
     @Before
     public void setUp() {
-        for (int i = 0; i < 25; i++) {
-            if (i == 0 || i == 5 || i == 6) {
-                ruudukko[i] = 0;
-            }
-            else {
-                ruudukko[i] = -1;
-            }
-        }
-
+        kentta = new Kentta(5, 5, 2);
+        peli = new Peli(kentta);
     }
 
     @Test
-    public void oikeaMaaraViereisiaMiinojaKulmassa() {
-        
-        assertEquals(3, peli.vieressaMiinoja(0));
+    public void onAlaReunaToimii() {       
+        assertTrue(peli.onAlareuna(23));
     }
 
     @Test
-    public void oikeaMaaraViereisiaMiinojaKeskella() {
-        assertEquals(8, peli.vieressaMiinoja(6));
+    public void onYlaReunaToimii() {        
+        assertTrue(peli.onYlareuna(3));
+    }
+    
+    @Test
+    public void onVasenReunaToimii() {
+        assertTrue(peli.onVasenReuna(5));
     }
 
     @Test
-    public void oikeaMaaraViereisiaMiinojaReunassa() {
-        assertEquals(8, peli.vieressaMiinoja(5));
+    public void onOikeaReunaToimii() {    
+        assertTrue(peli.onOikeaReuna(9));
+    }
+    
+    @Test
+    public void onKeskellaToimii() {    
+        assertTrue(peli.onKeskella(8));
+    }
+    
+    @Test
+    public void onVasenYlakulmaToimii() {    
+        assertTrue(peli.onVasenYlakulma(0));
+    }
+    
+    @Test
+    public void onOikeaYlakulmaToimii() {    
+        assertTrue(peli.onOikeaYlakulma(4));
+    }
+    
+    @Test
+    public void onOikeaAlakulmaToimii() {    
+        assertTrue(peli.onOikeaAlakulma(24));
+    }
+    
+    @Test
+    public void onVasenAlakulmaToimii() {    
+        assertTrue(peli.onVasenAlakulma(20));
     }
 }

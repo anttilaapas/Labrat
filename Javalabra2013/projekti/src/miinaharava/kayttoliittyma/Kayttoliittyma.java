@@ -73,13 +73,23 @@ public class Kayttoliittyma implements Runnable, ActionListener {
 
     private void luoKomponentit(Container contentPane) {
 
-        // haetaan leveys, pituus ja vaikeus käyttöliittymän
-        // kentistä
+        this.lisaaYlapalkki(contentPane);
+
+        this.aika = new JLabel("00:00");
+        JPanel alarivi = new JPanel();
+        alarivi.add(aika);
+
+        lopputulos = new JLabel();
+        alarivi.add(lopputulos);
+
+        contentPane.add(alarivi, BorderLayout.SOUTH);
+
+        aloita.addActionListener(this);
+    }
+    
+    public void lisaaYlapalkki(Container contentPane) {
         JLabel label1 = new JLabel("Sivun pituus: ");
         ruudukonKoko = new JTextField(3);
-
-//        JLabel label2 = new JLabel("Pituus: ");
-//        pituusKentta = new JTextField(3);
 
         JPanel vaikeus = new JPanel();
         vaikeusasteRyhma = new ButtonGroup();
@@ -93,7 +103,7 @@ public class Kayttoliittyma implements Runnable, ActionListener {
             vaikeusasteRyhma.add(vaikeusaste[i]);
             vaikeus.add(vaikeusaste[i]);
         }
-
+        
         this.ruutuPanel.removeAll();
 
         this.aloita = new JButton("Aloita!");
@@ -101,24 +111,11 @@ public class Kayttoliittyma implements Runnable, ActionListener {
 
         panel.add(label1);
         panel.add(ruudukonKoko);
-
         panel.add(vaikeus);
         panel.add(aloita);
 
         contentPane.setLayout(new BorderLayout());
-
         contentPane.add(panel, BorderLayout.NORTH);
-        this.aika = new JLabel("00:00");
-
-        JPanel alarivi = new JPanel();
-        alarivi.add(aika);
-
-        lopputulos = new JLabel();
-        alarivi.add(lopputulos);
-
-        contentPane.add(alarivi, BorderLayout.SOUTH);
-
-        aloita.addActionListener(this);
     }
 
     @Override
@@ -162,7 +159,6 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         } else {
             if (!peliOhi && e.getSource() != aloita) {
                 int painettu = Integer.parseInt((String) e.getActionCommand());
-                System.out.println(painettu);
 
                 String vieressa;
 
@@ -181,17 +177,26 @@ public class Kayttoliittyma implements Runnable, ActionListener {
                     vieressa = vieressaMiinoja(painettu);
                     ruudut[painettu].setText(vieressa);
                 }
-                System.out.println("PAINETUT: " + this.painetutRuudut.size());
                 
                 voitonTarkistus();
             }
         }
 
     }
+    
+    /* Jos käyttäjä on voittanut, näytetään, kuinka kauan ehti kulua aikaa
+     * pelin ratkeamiseen.
+     * 
+     */
 
     public void voittaneenViesti() {
         JOptionPane.showMessageDialog(null, "OU JEE, SIE VOITIT!" + "\nAikaa ehti kulua " + kello.getSekunnit() + " sekuntia.", "Tulos", JOptionPane.INFORMATION_MESSAGE);
     }
+    
+    /* Jos käyttäjä on voittanut, näytetään, kuinka kauan ehti kulua aikaa
+     * ja kuinka monta ruutua hän sai tuossa ajassa auki.
+     * 
+     */
 
     public void havinneenViesti() {
         JOptionPane.showMessageDialog(null, "ÖY NÖY, SIE HÄVISIT!" + "\nAikaa ehti kulua " + kello.getSekunnit() + " sekuntia\nja ehdit saada " + this.painetutRuudut.size() + " ruutua auki.", "Tulos", JOptionPane.INFORMATION_MESSAGE);
@@ -336,6 +341,14 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         frame.getContentPane().add(ruutuPanel, BorderLayout.CENTER);
     }
 
+    /*
+     * Mikäli miinaa on painettu, näytetään koko pelikenttä, ilmoitetaan siitä
+     * käyttäjälle ja pysäytetään pelikello
+     * 
+     * @param   painettu    peliruutu, jota painamalla miina on ilmestynyt
+     * 
+     */
+    
     public String miinaaPainettu(int painettu) {
 
         lopputulos.setText("HÄVISIT!");
@@ -344,16 +357,30 @@ public class Kayttoliittyma implements Runnable, ActionListener {
         this.peliOhi = true;
         kello.lopeta();
 
-
         return "*";
     }
 
+    /*
+     * Kun vieressä ei ole miinoja, asetetaan ruudun taustaväriksi valkoinen
+     * ja näytetään viereiset tyhjät ruudut kutsumalla vastaavaa funktiota
+     * 
+     * @param   painettu    peliruutu, jota on painettu
+     * 
+     */
+    
     public String eiViereisiaMiinoja(int painettu) {
 
         ruudut[painettu].setBackground(Color.white);
         naytaViereisetTyhjat(painettu);
         return "";
     }
+    
+    /*
+     * Mikäli ruutua ei ole painettu, lisätään se painettujen joukkoon ja
+     * haetaan peli-luokasta kuinka monta miinaa ruudun viereisissä ruuduissa on
+     * 
+     * @param   painettu    peliruutu, jota on painettu
+     */
 
     public String vieressaMiinoja(int painettu) {
 
@@ -361,9 +388,14 @@ public class Kayttoliittyma implements Runnable, ActionListener {
             this.painetutRuudut.add(painettu);
         }
 
-        
         return String.valueOf(peli.vieressaMiinoja(painettu));
     }
+    
+    /*
+     * Tarkistaa, onko pelaaja voittanut. Näin on tapahtunut siinä tapauksessa, että
+     * miinojenpaikkojen ja painettujen ruutujen summa on yhtä kuin peliruudun koko
+     * 
+     */
 
     private void voitonTarkistus() {
         if (this.miinojenPaikat.size() + this.painetutRuudut.size() == (this.sivunPituus * this.sivunPituus)) {

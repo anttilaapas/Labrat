@@ -15,13 +15,12 @@ import javax.swing.JTextField;
 
 /**
  * @author      Antti Laapas
- * @version     0.7
- * @since       2013-03-25
+ * @version     1.0
+ * @since       2013-03-28
  */
 
 public class HiirenKuuntelija extends MouseAdapter {
     
-    private int arvattujaMiinoja = 0;
     
     
     @Override
@@ -31,15 +30,10 @@ public class HiirenKuuntelija extends MouseAdapter {
         if (e.getButton() == MouseEvent.BUTTON3) {
             if (nappi.getText().equals("O")) {
                 nappi.setText("");
-                this.arvattujaMiinoja--;
             } else {
                 nappi.setText("O");
-                this.arvattujaMiinoja++;
             }
         }
     }
     
-    public int arvatutMiinat() {
-        return this.arvattujaMiinoja;
-    }
 }
