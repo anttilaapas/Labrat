@@ -1,0 +1,10 @@
+
+RAKENNEKUVAUS
+
+Ohjelman ytimessä on käyttöliittymä, josta saadaan käyttäjän haluamat ruudukon koko sekä pelin vaikeusaste. Kun käyttäjä painaa Aloita-nappia, käyttöliittymä kutsuu Kenttä-luokkaa, joka luo ruudukon. Kenttä-luokka puolestaan kutsuu Arpoja-luokkaa, joka arpoo miinat ruudukkoon. Tämän jälkeen käyttöliittymä kutsuu Peli-luokkaa, joka lisää ruudukkoon viereisten miinojen lukumäärät.
+
+Käyttöliittymä luo ruudukon, jonka taustalla on Peli-luokan luoma ruudukko sisältäen miinoja (-1) ja viereisten miinojen lukumääriä (0 ->). Lisäksi käyttöliittymä kutsuu Kello-luokkaa, joka siis laittaa kellon käyntiin näyttäen minuutit ja sekunnit ruudun alareunassa.
+
+Kun käyttäjä painaa ruutua, tarkistetaan Peli-luokan ruudukosta, oliko tällä kohtaa ruudukkoa miina vai tyhjä ruutu, ja sen mukaan paljastetaan ruutuja sen perusteella, oliko vieressä miinoja vaiko ei.
+
+Käytännössä siis taustalla on Peli-luokan ruudukko, jonka perusteella käyttöliittymä tekee tarvittavat toimenpiteet kontrolloiden sekä peliä että käyttäjän liikkeitä.
